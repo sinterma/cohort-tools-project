@@ -43,7 +43,10 @@ image:  {
     default: "https://i.imgur.com/r8bo8u7.png",
   },
 cohort: {
-    type: [mongoose.Schema.Types.ObjectId],
+  // i change this one, it works now ? let me 2 s ok monsieur it work
+  // what was the problem ? we put it in an array before right ? thankss i'll comiit and push
+  // [mongoose.Schema.Types.ObjectId] yes and insade the 
+    type: mongoose.Schema.Types.ObjectId, 
     // type : mongoose.Schema.Types.ObjectId,
     ref: 'Cohort'
 },
