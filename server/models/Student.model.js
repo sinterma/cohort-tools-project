@@ -43,9 +43,9 @@ image:  {
     default: "https://i.imgur.com/r8bo8u7.png",
   },
 cohort: {
-    cohort: mongoose.Schema.Types.ObjectId
+    type: [mongoose.Schema.Types.ObjectId],
     // type : mongoose.Schema.Types.ObjectId,
-    // ref: 'Cohort'
+    ref: 'Cohort'
 },
 projects: Array,
 });
