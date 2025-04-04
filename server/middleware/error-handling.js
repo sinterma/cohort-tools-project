@@ -16,11 +16,6 @@ function errorHandler(err, req, res, next) {
       // If not, send a response with status code 500 and a generic error message
       res.status(500).json({ message: 'Internal server error. Check the server console' });
     }
-    // else{
-    //     if(err.code == 11000){
-    //         res.status(500).json({ message: "duplicate key"})
-    //     }
-    // }
 
   }
 

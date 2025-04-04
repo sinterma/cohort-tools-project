@@ -1,11 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const PORT = 5005;
 const cors = require("cors");
 const mongoose = require("mongoose");
-const bcrypt = require('bcryptjs');
-const jwt = require("jsonwebtoken");
+
 
 // STATIC DATA
 // Devs Team - Import the provided files with JSON data of students and cohorts here:
@@ -14,10 +14,10 @@ const jwt = require("jsonwebtoken");
 // const students=require("./students.json");
 // ...
 
-const cohortRoute = require("./routes/cohort.routes.js")
-const studentRoute = require("./routes/student.routes.js")
-
-const User = require("./models/User.model");
+const cohortRoute = require("./routes/cohort.routes.js");
+const studentRoute = require("./routes/student.routes.js");
+const authRoute = require('./routes/auth.routes.js');
+const userRoute = require('./routes/user.routes.js');
 
 
 
@@ -56,6 +56,8 @@ app.use(
 // ...
 app.use("/api/cohorts", cohortRoute);
 app.use("/api/students", studentRoute);
+app.use("/auth", authRoute);
+app.use("/api/users", userRoute);
 
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
