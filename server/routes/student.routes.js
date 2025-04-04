@@ -88,7 +88,7 @@ router.get("/", (req, res, next) => {
         image: req.body.image,
         cohort: req.body.cohort,
         projects: req.body.projects,
-      }
+      }, {new : true}
     )
       .then((updatedStudent) => {
         res.status(200).json(updatedStudent);

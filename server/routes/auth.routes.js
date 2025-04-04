@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
           });
           res.status(200).json({ message: "You are logged", authToken });
         } else {
-          res.status(400).json({ errorMessage: "Incorrect password" });
+          res.status(400).json({ message: "Incorrect password" });
         }
       } else {
         res.status(400).json({ message: "Email doesn't exist" });

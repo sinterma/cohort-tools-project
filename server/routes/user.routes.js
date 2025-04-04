@@ -26,27 +26,50 @@ router.get("/:userId", isAuthenticated, async (req, res, next)=>{
 
 // PATCH /api/users/:id => Update a specific user by id.
 // The route should be protected by the authentication middleware
-// router.patch("/update-user/:userId", async (req, res) => {
-//     const { userId } = req.params;
-//     const { email, newEmail, password, newPassword } = req.body;
-//     const mysalt = bcrypt.genSaltSync(12);
-//     const hashedNewPassword= bcrypt.hashSync(newPassword, mysalt);
-//     const updatedData = {
-//         name: req.body.name,
-//         password: {type: String, required: true},
-//         email: newEmail,
-//     }
-//     try {
-
-//         const foundUser = await User.findByIdAndUpdate({email : email});
-//         // Verify existing email
-
-//         // Verify if new pwd !== old pwd
-
-//     } catch (error) {
-
-//     }
-// })
+router.patch("/update-user/:userId", async (req, res, next) => {
+    const { userId } = req.params;
+    const { email, newEmail, password, newPassword } = req.body;
+    const mysalt = bcrypt.genSaltSync(12);
+    const hashedNewPassword= bcrypt.hashSync(newPassword, mysalt);
+    // const hashedOldPassword= bcrypt.hashSync(password, mysalt);
+    const updateData = {
+        name: req.body.name,
+        password: hashedNewPassword,
+        email: newEmail,
+    }
+    if(email !== newEmail){
+      try {
+        const existingUser = await User.findOne({email : newEmail});
+        if(existingUser){
+          res.status(500).json({message: "Email already used"});
+        }
+      } catch(error) {
+        next(error);
+      }
+    }
+    try{
+        const foundUser = await User.findById(userId);
+        const doesPasswordMatch = bcrypt.compareSync(
+            password,
+            foundUser.password
+          );
+          if(doesPasswordMatch){
+            // previous password != new password
+            if(password != newPassword){
+              const updateUser = await User.findByIdAndUpdate(userId, updateData, {new : true});
+              const userInDB = updateUser
+              userInDB.password = "********"
+              res.status(200).json({message: "Password updated with success",userInDB});
+            }else{
+              res.status(500).json({message : "The new password should be different than the previous password"});
+            }
+        }else{
+            res.status(500).json({ message : "incorect password"});
+        }
+    } catch (error){
+      next(error)
+    }
+})
 
 //DELETE /api/users/:id => Delete a specific user by id.
 router.delete("/delete-user/:userId", async (req, res) => {
