@@ -23,8 +23,8 @@ router.post("/signup", async (req, res, next) => {
           userInDB.password = "********";
           res.status(201).json(userInDB);
         })
-        .catch((pizza) => {
-          next(pizza);
+        .catch((error) => {
+          next(error);
         });
     } else {
       res.status(400).json({ message: "This user already exist" });
@@ -70,6 +70,6 @@ router.get("/verify", isAuthenticated, (req, res) => {
   console.log("hello from route", req.payload);
   res
     .status(200)
-    .json({ message: "You are still logged in", payload: req.payload });
+    .json(req.payload);
 });
 module.exports = router;

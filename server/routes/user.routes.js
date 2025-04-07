@@ -9,9 +9,10 @@ const bcrypt = require("bcryptjs");
 // GET /api/users/:id => Retrieves a specific user by id.
 // The route should be protected by the authentication middleware
 router.get("/:userId", isAuthenticated, async (req, res, next)=>{
-    const {userId} = req.params;
-    // console.log("test ", req.payload._id === userId)
-    if(req.payload._id === userId){
+    const { userId } = req.params;
+    console.log("test ", req.payload._id, userId);
+    // console.log("test ", req.payload._id == userId);
+    if(req.payload._id == userId){
         // console.log(req.payload);
         try {
             const myUser = await User.findById(userId);
